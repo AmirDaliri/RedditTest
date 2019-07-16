@@ -12,7 +12,7 @@ import Alamofire
 extension ApiRouter {
     
     enum ServiceEndPoint: String {
-        case getMainData = "/"
+        case getMainData = "/r/swift/.json"
     }
     
     enum Service: URLRequestConvertible {
@@ -38,7 +38,7 @@ extension ApiRouter {
             }()
             
             // MARK: - Set HTTP Header Field
-            let base = URL(string: "")!
+            let base = URL(string: "https://www.reddit.com")!
             let baseAppend = base.appendingPathComponent(result.path).absoluteString.removingPercentEncoding
             let url = URL(string: baseAppend!)
             var urlRequest = URLRequest(url: url!)
