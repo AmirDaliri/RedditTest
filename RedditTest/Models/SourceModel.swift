@@ -1,5 +1,5 @@
 //
-//  BaseModel.swift
+//  SourceModel.swift
 //  RedditTest
 //
 //  Created by Amir Daliri on 17.07.2019.
@@ -9,17 +9,19 @@
 import Foundation
 import ObjectMapper
 
-class BaseModel: Mappable, NSCoding {
+class SourceModel: Mappable, NSCoding {
     
     // MARK: Declaration for string constants to be used to decode and also serialize.
     private struct SerializationKeys {
-        static let data = "data"
-        static let kind = "kind"
+        static let height = "height"
+        static let url = "url"
+        static let width = "width"
     }
     
     // MARK: Properties
-    public var data: ListData?
-    public var kind: String?
+    var height: Int?
+    var url: String?
+    var width: Int?
     
     // MARK: ObjectMapper Initializers
     /// Map a JSON object to this class using ObjectMapper.
@@ -33,8 +35,9 @@ class BaseModel: Mappable, NSCoding {
     ///
     /// - parameter map: A mapping from ObjectMapper.
     public func mapping(map: Map) {
-        data <- map[SerializationKeys.data]
-        kind <- map[SerializationKeys.kind]
+        height <- map[SerializationKeys.height]
+        url <- map[SerializationKeys.url]
+        width <- map[SerializationKeys.width]
     }
     
     /// Generates description of the object in the form of a NSDictionary.
@@ -42,20 +45,23 @@ class BaseModel: Mappable, NSCoding {
     /// - returns: A Key value pair containing all valid values in the object.
     public func dictionaryRepresentation() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        if let value = data { dictionary[SerializationKeys.data] = value.dictionaryRepresentation() }
-        if let value = kind { dictionary[SerializationKeys.kind] = value }
+        if let value = height { dictionary[SerializationKeys.height] = value }
+        if let value = url { dictionary[SerializationKeys.url] = value }
+        if let value = width { dictionary[SerializationKeys.width] = value }
         return dictionary
     }
     
     // MARK: NSCoding Protocol
     required public init(coder aDecoder: NSCoder) {
-        self.data = aDecoder.decodeObject(forKey: SerializationKeys.data) as? ListData
-        self.kind = aDecoder.decodeObject(forKey: SerializationKeys.kind) as? String
+        self.height = aDecoder.decodeObject(forKey: SerializationKeys.height) as? Int
+        self.url = aDecoder.decodeObject(forKey: SerializationKeys.url) as? String
+        self.width = aDecoder.decodeObject(forKey: SerializationKeys.width) as? Int
     }
     
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(data, forKey: SerializationKeys.data)
-        aCoder.encode(kind, forKey: SerializationKeys.kind)
+        aCoder.encode(height, forKey: SerializationKeys.height)
+        aCoder.encode(url, forKey: SerializationKeys.url)
+        aCoder.encode(width, forKey: SerializationKeys.width)
     }
     
 }

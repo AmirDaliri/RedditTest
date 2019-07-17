@@ -1,5 +1,5 @@
 //
-//  BaseModel.swift
+//  ListData.swift
 //  RedditTest
 //
 //  Created by Amir Daliri on 17.07.2019.
@@ -9,17 +9,19 @@
 import Foundation
 import ObjectMapper
 
-class BaseModel: Mappable, NSCoding {
+class ListData: Mappable, NSCoding {
     
     // MARK: Declaration for string constants to be used to decode and also serialize.
     private struct SerializationKeys {
-        static let data = "data"
-        static let kind = "kind"
+        static let dist = "dist"
+        static let children = "children"
+        static let modhash = "modhash"
     }
     
     // MARK: Properties
-    public var data: ListData?
-    public var kind: String?
+    var dist: Int?
+    var children: [Children]?
+    var modhash: String?
     
     // MARK: ObjectMapper Initializers
     /// Map a JSON object to this class using ObjectMapper.
@@ -33,8 +35,9 @@ class BaseModel: Mappable, NSCoding {
     ///
     /// - parameter map: A mapping from ObjectMapper.
     public func mapping(map: Map) {
-        data <- map[SerializationKeys.data]
-        kind <- map[SerializationKeys.kind]
+        dist <- map[SerializationKeys.dist]
+        children <- map[SerializationKeys.children]
+        modhash <- map[SerializationKeys.modhash]
     }
     
     /// Generates description of the object in the form of a NSDictionary.
@@ -42,20 +45,24 @@ class BaseModel: Mappable, NSCoding {
     /// - returns: A Key value pair containing all valid values in the object.
     public func dictionaryRepresentation() -> [String: Any] {
         var dictionary: [String: Any] = [:]
-        if let value = data { dictionary[SerializationKeys.data] = value.dictionaryRepresentation() }
-        if let value = kind { dictionary[SerializationKeys.kind] = value }
+        if let value = dist { dictionary[SerializationKeys.dist] = value }
+        if let value = children { dictionary[SerializationKeys.children] = value.map { $0.dictionaryRepresentation() } }
+        if let value = modhash { dictionary[SerializationKeys.modhash] = value }
         return dictionary
     }
     
     // MARK: NSCoding Protocol
     required public init(coder aDecoder: NSCoder) {
-        self.data = aDecoder.decodeObject(forKey: SerializationKeys.data) as? ListData
-        self.kind = aDecoder.decodeObject(forKey: SerializationKeys.kind) as? String
+        self.dist = aDecoder.decodeObject(forKey: SerializationKeys.dist) as? Int
+        self.children = aDecoder.decodeObject(forKey: SerializationKeys.children) as? [Children]
+        self.modhash = aDecoder.decodeObject(forKey: SerializationKeys.modhash) as? String
     }
     
     public func encode(with aCoder: NSCoder) {
-        aCoder.encode(data, forKey: SerializationKeys.data)
-        aCoder.encode(kind, forKey: SerializationKeys.kind)
+        aCoder.encode(dist, forKey: SerializationKeys.dist)
+        aCoder.encode(children, forKey: SerializationKeys.children)
+        aCoder.encode(modhash, forKey: SerializationKeys.modhash)
     }
     
 }
+
