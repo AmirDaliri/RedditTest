@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window = showFeedController()
+        window = showLaunchScreenController()
         return true
     }
 
@@ -28,7 +28,7 @@ extension AppDelegate {
     }
     
     func showFeedController() -> PCWindow {
-        return PCWindow(rootViewController: PCNavigationController(rootViewController: ViewController()))
+        return PCWindow(rootViewController: PCNavigationController(rootViewController: MainViewController()))
     }
     
 }

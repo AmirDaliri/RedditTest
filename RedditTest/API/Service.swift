@@ -64,16 +64,20 @@ extension ApiRouter {
 
 extension ApiRequest {
     
-    func getMainData( _ completionHandler: @escaping ([Children]?) -> Void) {
+    func getMainData( _ completionHandler: @escaping ([Children]?, Error?) -> Void) {
         DefaultAlamofireManager.sharedManager.request(ApiRouter.Service.getMainData).validate().responseObject { (response: DataResponse<BaseModel>) in
             
             switch response.result {
                 
             case .success(let result):
-                completionHandler(result.data?.children)
+                if let childrens = result.data?.children {
+                    completionHandler(childrens, nil)
+                } else {
+                    completionHandler(nil, nil)
+                }
+                completionHandler(result.data?.children, nil)
             case .failure(let err):
-                print(err.localizedDescription)
-                completionHandler(nil)
+                completionHandler(nil, err)
             }
         }
     }
