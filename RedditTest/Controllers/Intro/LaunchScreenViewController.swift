@@ -22,7 +22,7 @@ class LaunchScreenViewController: PCViewController, Layouting, AlertPresenting {
         super.viewDidLoad()
         
         // I'm Here...
-        
+        NotificationCenter.default.addObserver(self,selector: #selector(statusManager), name: .flagsChanged, object: nil)
         DispatchQueue.main.async {
             SwiftSpinner.show("Fetching Data...")
         }
@@ -39,6 +39,7 @@ class LaunchScreenViewController: PCViewController, Layouting, AlertPresenting {
     func fetchData() {
         ApiRequest.shared.getMainData { (childrens, error)  in
             guard let data = childrens, error == nil else {
+                SwiftSpinner.hide()
                 if let err = error {
                     self.presentAlert(title: "Sorry!", error: err)
                 } else {

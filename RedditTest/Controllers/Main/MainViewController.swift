@@ -24,7 +24,7 @@ class MainViewController: PCViewController, Layouting {
         super.viewDidLoad()
         
         // I'm Here...
-        print(childrens.count)
+        NotificationCenter.default.addObserver(self,selector: #selector(statusManager), name: .flagsChanged, object: nil)
         pcView.tableView.dataSource = self
         pcView.tableView.delegate = self
         pcView.tableView.reloadData()
