@@ -43,12 +43,7 @@ extension ApiRouter {
             let url = URL(string: baseAppend!)
             var urlRequest = URLRequest(url: url!)
             urlRequest.httpMethod = method.rawValue
-            /*
-            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-type")
-            if let sessionId = AuthCache.sessionId {
-                urlRequest.setValue(sessionId, forHTTPHeaderField: "SessionId")
-            }
-            */
+
             switch result.path {
             case ServiceEndPoint.getMainData.rawValue:
                 

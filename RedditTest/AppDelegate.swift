@@ -35,7 +35,7 @@ extension AppDelegate {
     
     func checkNetwork() {
         do {
-            try Network.reachability = Reachability(hostname: "www.google.com")
+            try Network.reachability = Reachability(hostname: "www.google.com") // or "https://www.reddit.com"
         }
         catch {
             switch error as? Network.Error {
